@@ -10,4 +10,4 @@ SCOPE = “user-top-read”
 
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET, redirect_uri=SPOTIPY_REDIRECT_URI, scope=SCOPE))
 
-results = sp.current_user_top_tracks()results = sp.current_user_top_tracks()
+results = sp.current_user_top_tracks()
