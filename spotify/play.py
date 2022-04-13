@@ -1,0 +1,3 @@
+import spotify
+
+spotify.unpause()
