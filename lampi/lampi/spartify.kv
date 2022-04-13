@@ -1,4 +1,33 @@
 #:kivy 1.9
+#:import hsv_to_rgb colorsys.hsv_to_rgb
+#:import rgb_to_hsv colorsys.rgb_to_hsv
 
-Label:
-  text: 'Hello from Kivy'
+#:include lampi/controls/lampi_toggle.kv
+#:include lampi/controls/color_box.kv
+#:include lampi/colors.kv
+
+BoxLayout:
+  orientation: 'vertical'
+  BoxLayout:
+    size_hint_y: 0.69
+    Image:
+      source: 'images/Joji Sample.jpg'
+      size: self.texture_size
+  ColorBox:
+    size_hint_y: .02
+    color: (.56, .08, .04)
+  BoxLayout:
+    size_hint_y: 0.20
+    orientation: 'horizontal'
+    LampiToggle:
+      id: skipb
+      size_hint_x: .33
+      image: 'images/white/skipb.png'
+    LampiToggle:
+      id: pause_play
+      size_hint_x: .33
+      image: 'images/white/play.png'
+    LampiToggle:
+      id: skipf
+      size_hint_x: .33
+      image: 'images/white/skipf.png'
