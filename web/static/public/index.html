@@ -21,6 +21,7 @@
     <div class="container">
       <div id="login">
         <h1 style="color:white">Welcome to Spartify!</h1>
+        </br>
         <a href="/login" class="btn btn-primary" style="background-color:#25eae9">Log in with Spotify</a>
       </div>
       <div id="loggedin">
@@ -62,9 +63,9 @@
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script>
+    <script type="text/javascript">
       (function() {
-
+        console.log("reached 1");
         /**
          * Obtains parameters from the hash of the URL
          * @return Object
@@ -92,7 +93,7 @@
         var access_token = params.access_token,
             refresh_token = params.refresh_token,
             error = params.error;
-
+        console.log("reached 2");
         if (error) {
           alert('There was an error during the authentication');
         } else {
