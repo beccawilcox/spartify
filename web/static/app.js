@@ -1,5 +1,4 @@
-//const http = require('http')
-//const fetch = require("node-fetch");
+var SpotifyWebApi = require('spotify-web-api-node');
 var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
 var cors = require('cors');
@@ -9,9 +8,14 @@ const path = require('path');
 let ejs = require('ejs');
 const clientId = 'a7b734f818404ff08d6b4f34b7ad3c33'; // Your client id
 const clientSecret = '56bbf4411c364f1498a9be9c22e92693'; // Your secret
-var redirect_uri = 'http://localhost:8000'; // Your redirect uri
-var accessToken = "BQDXJ4HTgEw6JH73ceehGn-s3aM5YM4GO5EWuHaGu433IEyVUODeh4mUw05g1A5P2oFVn4jylWaS-ReMhNi1KVqR5LS6OGZl46znFTWQtysi3Wd-9LapxNRlPr5S4yTkU8zyTea0itwdoxsyS4qAMqvg5nF0c0PgMQdOeu1xWh98kEUwkpdOjv4";
-
+var redirect_uri = 'http://localhost:8000/dashboard'; // Your redirect uri
+var accessToken = "BQD5xGmgZoLvyBe-O3xfsvuYS-CTXYse053_MnY7yPYu9Aw3WpGLxpBMNBzO4naINw_hQZEthGCac2XBA5Yhk-mR95oi1FsrzbcAt7INqPg_9xQMWmdQX7V5nA-c60T0aqk4WLjlpkDZWYKvHtGBXcayxs4ERkDKHE2edDYg6sU";
+var spotifyApi = new SpotifyWebApi({
+  clientId: clientId,
+  clientSecret: clientSecret,
+  redirectUri: redirect_uri
+});
+spotifyApi.setAccessToken(accessToken);
 var red_angry="6cnOv1rbqq2HcGFAxDBXjG";
 var red_sad="1bkGXM7tyigxRB5FSFZu4P";
 var red_happy="1ahbVVNMQyXLBZKJzmYWyX";
@@ -35,6 +39,26 @@ var paused=true;
 var song="";
 var color="";
 var mood="";
+
+function play(){
+  spotifyApi.play()
+    .then(function() {
+      console.log('Playback started');
+    }, function(err) {
+      //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
+      console.log('Something went wrong!', err);
+  });
+}
+
+function pause(){
+  spotifyApi.pause()
+    .then(function() {
+      console.log('Playback paused');
+    }, function(err) {
+      //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
+      console.log('Something went wrong!', err);
+  });
+}
 
 
 const app = express();
@@ -70,7 +94,7 @@ const scopes = [
 //app.use('/dashboard', express.static(path.join(__dirname, 'public/dashboard.html', { song: song, paused:paused })))
 app.use('/img',express.static(__dirname + 'public/image/album'));
 app.use('/dashboard', (req, res, next) => {
-  res.render('public/dashboard.html', { song: song, paused:paused });
+  res.render('public/dashboard.html', { song: song, paused:paused, token:accessToken  });
 });
 
 app.use('/', (req, res, next) => {
@@ -139,11 +163,19 @@ app.get('/play', function(req, res) {
     //pause=false;
   }
 });
+
 app.get('/login', function(req, res) {
 
   // your application requests authorization
-  var scope = 'user-read-private user-read-email';
-  res.redirect('/dashboard');
+
+  res.redirect('https://accounts.spotify.com/authorize?' +
+    querystring.stringify({
+      response_type: 'code',
+      client_id: _clientId,
+      scope: scope,
+      redirect_uri: _redirecturi
+    })
+  );
 });
 
 const _getToken = async () => {

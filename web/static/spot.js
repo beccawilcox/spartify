@@ -3,10 +3,9 @@ const axios = require('axios')
 const _clientId = 'a7b734f818404ff08d6b4f34b7ad3c33'; // Your client id
 const _clientSecret = '56bbf4411c364f1498a9be9c22e92693'; // Your secret
 var _redirectUri = 'http://localhost:8000'; // Your redirect uri
-var _token = "BQDwsIvd29fPC9-l8kFvwNvEAZ7WsbO3OyGtb0PAAl8CGet2Yd5pl-M9yFgRpjFr0RdyRieXrKcyKlZDg9PvKrX1OZMc9kTtQ2CrY3g5Y_ZgNSyoL4ioqlv4xiAP3Ohdm68lcG9HkhZIvAU7Am3RkRpnGFJkoUzhFitAXq_YArXx5QVR0LucMVY";
+var _token = "BQAUdFsIN9HYfa5Q-ShDfpotDWbHzVnIqTem1FOBj1FlozFCWvF1wAQeuSXm6KVUvKFbfhLSCJzpL07PhDwGJ8u0DXl3spSfF6QJn4p1C5ldm1jMrTDbfNncqBKOYunGHkBhkc6fVW_nnX6JFFh2Nl6FyVaS-5rmgU88-qutx43lyho";
 
-const fs = require('fs')
-const scopes=["streaming user-modify-playback-state", "user-library-modify", "user-read-currently-playing", "user-library-read", "user-read-recently-played"];
+
 
 var SpotifyWebApi = require('spotify-web-api-node');
 
@@ -18,14 +17,30 @@ var spotifyApi = new SpotifyWebApi({
 
 spotifyApi.setAccessToken(_token);
 
+window.onSpotifyWebPlaybackSDKReady = () => {
+  // You can now initialize Spotify.Player and use the SDK
+};
 
-/*
-spotifyApi.getPlaylist('4GvUZTQaQmeIrukMebTAyt')
-  .then(function(data) {
-    console.log('Some information about this playlist', data.body);
-  }, function(err) {
-    console.log('Something went wrong!', err);
+play({
+  playerInstance: new Spotify.Player({ name: "..." }),
+  spotify_uri: 'spotify:playlist:05coRtVcVSSmFqSqyH3CTx',
 });
+
+function play(contextUri){
+  spotifyApi.play({context_uri:contextUri, device_id:'8a5a39ffb7989e45696876053074a2bf795277e6'})
+    .then(function() {
+      console.log('Playback started');
+    }, function(err) {
+      //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
+      console.log('Something went wrong!', err);
+  });
+}
+//pause();
+play("05coRtVcVSSmFqSqyH3CTx");
+
+
+
+
 
 
 spotifyApi.getMyDevices()
@@ -35,17 +50,45 @@ spotifyApi.getMyDevices()
   }, function(err) {
     console.log('Something went wrong!', err);
 });
-*/
 
-
-spotifyApi.getMyCurrentPlaybackState()
-  .then(function(data) {
-    // Output items
-    if (data.body && data.body.is_playing) {
-      console.log("User is currently playing something!");
-    } else {
-      console.log("User is not playing anything, or doing so in private.");
+function isplaying(){
+  spotifyApi.getMyCurrentPlaybackState()
+    .then(function(data) {
+      // Output items
+      if (data.body && data.body.is_playing) {
+       return true;
+      } else {
+      return false;
     }
   }, function(err) {
     console.log('Something went wrong!', err);
 });
+}
+
+console.log(isplaying());
+/*
+function play(){
+  if(isplaying()) {
+     spotifyApi.play(thing)
+      .then(function() {
+        console.log('Playback started');
+      }, function(err) {
+      //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
+        console.log('Something went wrong!', err);
+  });
+}
+*/
+
+//var currentSong = async () =>{ await spotifyApi.getMyCurrentPlayingTrack().then(function(data){data.body.item.name});
+
+
+
+function pause(){
+  spotifyApi.pause()
+    .then(function() {
+      console.log('Playback paused');
+    }, function(err) {
+      //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
+      console.log('Something went wrong!', err);
+  });
+}

@@ -25,34 +25,34 @@
             <div class="row">
               <div class="col">
                 <form action="../../changered"method="post">
-                  <button id="red" type="submit" class="btn" style="height:80px;width:30%;size:large;color:red;background-color:red !important">button</button>      
+                  <button id="red" type="submit" class="btn" style="height:30px;width:100%;size:large;color:red;background-color:red !important">button</button>      
                 </form>
               </div>
               <div class="col">
                 <form action="../../changeorange"method="post">
-                  <button id="orange" type="submit" action="../changeorange" class="btn" style="height:80px;width:30%;size:large;color:orange;background-color:orange !important">button</button>       
+                  <button id="orange" type="submit" action="../changeorange" class="btn" style="height:30px;width:100%;size:large;color:orange;background-color:orange !important">button</button>       
                 </form>
               </div>
               <div class="col">
                 <form action="../../changeyellow"method="post">
-                  <button id="yellow" type="submit" action="../changeyellow" class="btn" style="height:80px;width:30%;size:large;color:yellow;background-color:yellow !important">button</button>
+                  <button id="yellow" type="submit" action="../changeyellow" class="btn" style="height:30px;width:100%;size:large;color:yellow;background-color:yellow !important">button</button>
                 </form>
                </div>
              </div>
-            <div class="row" style="margin-top:5px">
+            <div class="row">
               <div class="col">
                 <form action="../../changegreen"method="post">
-                  <button type="submit" class="btn" style="height:80px;width:30%;size:large;color:red;background-color:green !important"button>
+                  <button type="submit" class="btn" style="height:30px;width:100%;size:large;color:red;background-color:green !important"button>
                 </form>
               </div>
               <div class="col">
                 <form action="../../changeblue"method="post">
-                  <button type="submit"  class="btn" style="height:80px;width:30%;size:large;color:blue !important;background-color:blue !important"button>
+                  <button type="submit"  class="btn" style="height:30px;width:100%;size:large;color:blue !important;background-color:blue !important"button>
                 </form>
               </div>
               <div class="col">
                 <form action="../../changepurple"method="post">
-                  <button type="submit" class="btn" style="height:80px;width:30%;size:large;color:purple !important;background-color:purple !important"button> 
+                  <button type="submit" class="btn" style="height:30px;width:100%;size:large;color:purple !important;background-color:purple !important"button> 
                 </form>
               </div>
             </div>
@@ -102,8 +102,21 @@
       else{
         document.getElementById("play").style.display = "none";
     }}
-
-
     </script>
+    <script type="text/javascript">
+    window.onSpotifyWebPlaybackSDKReady = () => {
+      const token = token;
+      const player = new Spotify.Player({
+        name: 'Web Playback SDK Quick Start Player',
+        getOAuthToken: cb => { cb(token); },
+        volume: 0.5
+     });
+    play({
+      playerInstance: new Spotify.Player({ name: "..." }),
+      spotify_uri: 'spotify:playlist:0hvXDAChjeN8inZFPBMVh1',
+    });
+  
+    </script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
   </body>
 </html>
