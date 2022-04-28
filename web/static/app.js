@@ -99,6 +99,13 @@ app.get('/callback', (req, res) => {
     });
 });
 
+async function getTracks(playlistID) {
+  const data = await spotifyApi.getPlaylistTracks(playlistID, {offset:1,limit:100,fields:'items'});
+  return data;
+};
+
+console.log(getTracks("6xqlE2TVcOh0YUmJSNH0uX"));
+
 
 console.log('Listening on 8000');
 app.listen(8000);
