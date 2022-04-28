@@ -1,24 +1,45 @@
-
+//const http = require('http')
+//const fetch = require("node-fetch");
 var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 const path = require('path');
-
+let ejs = require('ejs');
 const clientId = 'a7b734f818404ff08d6b4f34b7ad3c33'; // Your client id
 const clientSecret = '56bbf4411c364f1498a9be9c22e92693'; // Your secret
 var redirect_uri = 'http://localhost:8000'; // Your redirect uri
 
-var SpotifyWebApi = require('spotify-web-api-js');
+var red_angry="6cnOv1rbqq2HcGFAxDBXjG";
+var red_sad="1bkGXM7tyigxRB5FSFZu4P";
+var red_happy="1ahbVVNMQyXLBZKJzmYWyX";
+var orange_angry="5Dyco6qrEBBVx22cpfJ8sJ ";
+var orange_sad="4GvUZTQaQmeIrukMebTAyt ";
+var orange_happy="05coRtVcVSSmFqSqyH3CTx";
+var yellow_angry="1YU48w8UD9bpUwjJ6gXfXn";
+var yellow_sad="6CdEOh1jpwSu9lWAW0aO0L";
+var yellow_happy="4C9S97Bt886HWURi3DxoGa";
+var green_angry="6xqlE2TVcOh0YUmJSNH0uX";
+var green_sad="425EauXafoqoVOrFUndqDK";
+var green_happy="2Z4FAzKpT1ZSOYHxbVdONQ";
+var blue_angry="06MoRxkYP1BhwHPqp4427T";
+var blue_sad="0Okyg5E8XrpCvXP2CgibEL";
+var blue_happy="76yQ6q3T1kh9TqteHDzrCB";
+var purple_angry="0hvXDAChjeN8inZFPBMVh1";
+var purple_sad="7BCUFDUbaqsnKdtgFkt79B";
+var purple_happy="0hvXDAChjeN8inZFPBMVh1";
 
-var spotifyApi = new SpotifyWebApi({
-    clientId: clientId,
-    clientSecret: clientSecret,
-    redirectUri: redirect_uri
-});
+var paused=true;
+var song="";
+var color="";
+var mood="";
+
 
 const app = express();
+
+app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
 
 const scopes = [
     'ugc-image-upload',
@@ -42,12 +63,81 @@ const scopes = [
     'user-follow-modify'
   ];
 
-app.use(express.static(__dirname + '/public'))
-   .use(cors())
-   .use(cookieParser());
-app.use('/dashboard', express.static(path.join(__dirname, 'public/dashboard.html')))
+//app.use(express.static(__dirname + '/public'))
+  // .use(cors())
+   //.use(cookieParser());
+//app.use('/dashboard', express.static(path.join(__dirname, 'public/dashboard.html', { song: song, paused:paused })))
+app.use('/img',express.static(__dirname + 'public/image/album'));
+app.use('/dashboard', (req, res, next) => {
+  res.render('public/dashboard.html', { name: 'John Doe', age: 21 });
+});
 
+app.use('/', (req, res, next) => {
+  res.render('public/index.html', { name: 'John Doe', age: 21 });
+});
 
+app.post('/changepurple', function(req, res) {
+  color = "purple";
+  console.log(color);
+});
+
+app.post('/changered', function(req, res) {
+  color = "red";
+  console.log(color);
+});
+
+app.post('/changeorange', function(req, res) {
+  color = "orange";
+  console.log(color);
+});
+
+app.post('/changeyellow', function(req, res) {
+  color = "yellow";
+  console.log(color);
+});
+
+app.post('/changegreen', function(req, res) {
+  color = "green";
+  console.log(color);
+});
+
+app.post('/changeblue', function(req, res) {
+  color = "blue";
+  console.log(color);
+});
+
+app.post('/changeangry', function(req, res) {
+  mood = "angry";
+  console.log(mood);
+});
+app.post('/changehappy', function(req, res) {
+  mood="happy";
+  console.log(mood);
+});
+
+app.post('/changesad', function(req, res) {
+  mood="sad";
+});
+app.post('/skipf', function(req, res) {
+  //skip
+});
+app.post('/skipb', function(req, res) {
+  console.log("skipped back");
+  //skipb
+  //update mqqt
+});
+app.post('/pause', function(req, res) {
+  if(pause==false){
+    //pause
+    //pause=true;
+  }
+});
+app.get('/play', function(req, res) {
+  if(pause==true){
+    //pause
+    //pause=false;
+  }
+});
 app.get('/login', function(req, res) {
 
   // your application requests authorization
@@ -55,56 +145,34 @@ app.get('/login', function(req, res) {
   res.redirect('/dashboard');
 });
 
-
-app.get('/callback', (req, res) => {
-  const error = req.query.error;
-  const code = req.query.code;
-  const state = req.query.state;
-
-  if (error) {
-    console.error('Callback Error:', error);
-    res.send(`Callback Error: ${error}`);
-    return;
- }
-
-  spotifyApi
-    .authorizationCodeGrant(code)
-    .then(data => {
-      const access_token = data.body['access_token'];
-      const refresh_token = data.body['refresh_token'];
-      const expires_in = data.body['expires_in'];
-
-      spotifyApi.setAccessToken(access_token);
-      spotifyApi.setRefreshToken(refresh_token);
-      console.log('access_token:', access_token);
-      console.log('refresh_token:', refresh_token);
-
-      console.log(
-        `Sucessfully retreived access token. Expires in ${expires_in} s.`
-      );
-      res.send('Success! You can now close the window.');
-
-      setInterval(async () => {
-        const data = await spotifyApi.refreshAccessToken();
-        const access_token = data.body['access_token'];
-
-        console.log('The access token has been refreshed!');
-        console.log('access_token:', access_token);
-        spotifyApi.setAccessToken(access_token);
-      }, expires_in / 2 * 1000);
-    })
-    .catch(error => {
-      console.error('Error getting Tokens:', error);
-      res.send(`Error getting Tokens: ${error}`);
+const _getToken = async () => {
+  const result = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: {
+      'Content-Type' : 'application/x-www-form-urlencoded', 
+      'Authorization' : 'Basic ' + btoa(clientId + ':' + clientSecret)
+      },
+    body: 'grant_type=client_credentials'
     });
-});
 
-async function getTracks(playlistID) {
-  const data = await spotifyApi.getPlaylistTracks(playlistID, {offset:1,limit:100,fields:'items'});
-  return data;
+    const data = await result.json();
+    return data.access_token;
+}
+/*
+async function updatePlaylist() {
+  if(mood&&color !=""){
+    var playlistID = color+"_"+mood;
+    //play that ID
+  }
 };
 
-console.log(getTracks("6xqlE2TVcOh0YUmJSNH0uX"));
+
+async function getDevices() {
+  const result = await fetch('https://api.spotify.com/v1/me/player/devices',{ method: 'GET'});
+  return result;
+};
+*/
+
 
 
 console.log('Listening on 8000');
