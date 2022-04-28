@@ -75,7 +75,7 @@
         </div>      
         <div class="col-md-6" style="float:right;padding-top:10px">
           <img src="https:/localhost:8000/img/Moral of the Story.JPG" style="margin:20px;image-rendering:pixelated;width:50%">
-          <h5 style="margin-left:30px;color:white">Before you go</h5>
+          <h5 style="margin-left:30px;color:white" id="songtitle"><%= song %></h5>
         </div>
       </div>
 
@@ -87,7 +87,8 @@
     </div>
     <div style="position:absolute;z-index:1;left:775px;top:390px">
       <form method="post" action="../../pause">
-        <input type="image" name="submit" src="localhost:8000/img/image/white/pause.png" style="width:50px">
+        <input type="image" id="pause"name="submit" src="https:localhost:8000/img/image/white/pause.png" style="width:50px;visibility:hidden">
+        <input type="image" id="play"name="submit" src="https:localhost:8000/img/image/white/play.png" style="width:50px;visibility:hidden">
       </form>
     </div>
     <div style="position:absolute;z-index:1;left:880px;top:400px">
@@ -95,6 +96,14 @@
         <input name="submit" type="image" src="localhost:8000/img/image/white/skipf.png" style="width:50px">
       </form>
     </div>
-                  
+    <script type="text/javascript">
+    if(paused==true){
+      document.getElementById("pause").style.display = "none";
+      else{
+        document.getElementById("play").style.display = "none";
+    }}
+
+
+    </script>
   </body>
 </html>

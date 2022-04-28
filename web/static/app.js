@@ -10,6 +10,7 @@ let ejs = require('ejs');
 const clientId = 'a7b734f818404ff08d6b4f34b7ad3c33'; // Your client id
 const clientSecret = '56bbf4411c364f1498a9be9c22e92693'; // Your secret
 var redirect_uri = 'http://localhost:8000'; // Your redirect uri
+var accessToken = "BQDXJ4HTgEw6JH73ceehGn-s3aM5YM4GO5EWuHaGu433IEyVUODeh4mUw05g1A5P2oFVn4jylWaS-ReMhNi1KVqR5LS6OGZl46znFTWQtysi3Wd-9LapxNRlPr5S4yTkU8zyTea0itwdoxsyS4qAMqvg5nF0c0PgMQdOeu1xWh98kEUwkpdOjv4";
 
 var red_angry="6cnOv1rbqq2HcGFAxDBXjG";
 var red_sad="1bkGXM7tyigxRB5FSFZu4P";
@@ -69,11 +70,11 @@ const scopes = [
 //app.use('/dashboard', express.static(path.join(__dirname, 'public/dashboard.html', { song: song, paused:paused })))
 app.use('/img',express.static(__dirname + 'public/image/album'));
 app.use('/dashboard', (req, res, next) => {
-  res.render('public/dashboard.html', { name: 'John Doe', age: 21 });
+  res.render('public/dashboard.html', { song: song, paused:paused });
 });
 
 app.use('/', (req, res, next) => {
-  res.render('public/index.html', { name: 'John Doe', age: 21 });
+  res.render('public/index.html', {});
 });
 
 app.post('/changepurple', function(req, res) {
