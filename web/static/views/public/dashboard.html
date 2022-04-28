@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Spartify</title>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">   
+    <style type="text/css">
+      .text-overflow {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 500px;
+      }
+      .text{
+        color:white;
+      }
+     
+    </style>
+  </head>
+
+  <body  style="background-color:black">
+    <div class="container" style="padding:10px">
+      <div class="row">
+        <div class="col-md-6" style="width:45% !important;margin-top:30px;margin-left:30px">
+          <div class="container" style="width:100%">
+            <div class="row">
+              <div class="col">
+                <form action="../../changered"method="post">
+                  <button id="red" type="submit" class="btn" style="height:80px;width:30%;size:large;color:red;background-color:red !important">button</button>      
+                </form>
+              </div>
+              <div class="col">
+                <form action="../../changeorange"method="post">
+                  <button id="orange" type="submit" action="../changeorange" class="btn" style="height:80px;width:30%;size:large;color:orange;background-color:orange !important">button</button>       
+                </form>
+              </div>
+              <div class="col">
+                <form action="../../changeyellow"method="post">
+                  <button id="yellow" type="submit" action="../changeyellow" class="btn" style="height:80px;width:30%;size:large;color:yellow;background-color:yellow !important">button</button>
+                </form>
+               </div>
+             </div>
+            <div class="row" style="margin-top:5px">
+              <div class="col">
+                <form action="../../changegreen"method="post">
+                  <button type="submit" class="btn" style="height:80px;width:30%;size:large;color:red;background-color:green !important"button>
+                </form>
+              </div>
+              <div class="col">
+                <form action="../../changeblue"method="post">
+                  <button type="submit"  class="btn" style="height:80px;width:30%;size:large;color:blue !important;background-color:blue !important"button>
+                </form>
+              </div>
+              <div class="col">
+                <form action="../../changepurple"method="post">
+                  <button type="submit" class="btn" style="height:80px;width:30%;size:large;color:purple !important;background-color:purple !important"button> 
+                </form>
+              </div>
+            </div>
+            <div class="row" style="width:97%;margin-top:50px">
+              <form method="post" action="/../changehappy">
+                <button type="submit" class="btn" style="size:large;color:black;background-color:white !important; width:100%">Happy</button>
+              </form>
+            </div>
+            <div class="row" style="width:97%;margin-top:50px">
+              <form method="post" action="/../changesad">
+                <button type="submit" class="btn" style="size:large;color:black;background-color:white !important; width:100%">Sad</button>
+              </form>
+            </div>
+            <div class="row" style="width:97%;margin-top:50px">
+              <form method="post" action="/../changeangry">
+                <button type="submit" class="btn" style="size:large;color:black;background-color:white !important; width:100%">Angry</button>
+              </form>
+            </div>
+          </div>
+        </div>      
+        <div class="col-md-6" style="float:right;padding-top:10px">
+          <img src="https:/localhost:8000/img/Moral of the Story.JPG" style="margin:20px;image-rendering:pixelated;width:50%">
+          <h5 style="margin-left:30px;color:white">Before you go</h5>
+        </div>
+      </div>
+
+    </div>
+    <div style="position:absolute;z-index:1;left:680px;top:400px">
+      <form method="post" action="../../skipb">
+        <input type="image" name="submit" src="image/white/skipb.png" style="width:50px">
+      </form>
+    </div>
+    <div style="position:absolute;z-index:1;left:775px;top:390px">
+      <form method="post" action="../../pause">
+        <input type="image" name="submit" src="localhost:8000/img/image/white/pause.png" style="width:50px">
+      </form>
+    </div>
+    <div style="position:absolute;z-index:1;left:880px;top:400px">
+      <form method="post" action="../../skip">
+        <input name="submit" type="image" src="localhost:8000/img/image/white/skipf.png" style="width:50px">
+      </form>
+    </div>
+                  
+  </body>
+</html>
